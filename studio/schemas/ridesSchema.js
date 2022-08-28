@@ -1,5 +1,5 @@
-export const riderSchema = {
-  name: "rider",
+export const ridesSchema = {
+  name: "rides",
   title: "Rides",
   type: "document",
   fields: [

@@ -32,7 +32,7 @@ export const tripSchema = {
       name: "passenger",
       type: "reference",
       title: "Passenger",
-      to: [{ type: "Users" }],
+      to: [{ type: "users" }],
     },
   ],
 };
