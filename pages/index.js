@@ -12,7 +12,7 @@ const style = {
 
 export default function Home() {
   return (
-    <div className="h-screen w-screen flex flex-col">
+    <div className={style.wrapper}>
       {/* navbar */}
       <Navbar />
       <div className={style.main}>

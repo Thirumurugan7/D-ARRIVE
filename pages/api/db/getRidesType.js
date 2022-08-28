@@ -1,7 +1,7 @@
 import { client } from "../../../lib/sanity";
 
 const query = `
-*[_type=="rides"]{
+*[_type=="rider"]{
   "service": title,
   "iconUrl": icon.asset->url,
   priceMultiplier,
