@@ -29,6 +29,7 @@ const Navbar = () => {
         <div className={style.menuItem}>Help</div>
         <div className={style.menuItem}>Lance</div>
         <div className={style.userImageContainer}>
+          {console.log(avatar)}
           <Image
             className={style.userImage}
             src={avatar}

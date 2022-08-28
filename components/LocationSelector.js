@@ -15,6 +15,7 @@ function LocationSelector() {
   const [inFocus, setInFocus] = useState("from");
   const [pickUp, setPickup] = useState("");
   const [dropOff, setDropoff] = useState("");
+  console.log({ pickup: pickUp, dropoff: dropOff });
   return (
     <div className={style.wrapper}>
       <div className={style.searchHeader}>
