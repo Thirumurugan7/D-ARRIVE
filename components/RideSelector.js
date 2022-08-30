@@ -1,7 +1,8 @@
 import Image from "next/image";
 
 import ethLogo from "../assets/eth-logo.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState} from "react";
+import { UberContext } from "../context/uberContext";
 const style = {
   wrapper: `h-full flex flex-col`,
   title: `text-gray-500 text-center text-xs py-2 border-b`,
@@ -18,7 +19,9 @@ const style = {
 
 const basePrice = 1542;
 const RideSelector = () => {
-  const [carList, setCartList] = useState([]);
+const [carList , setCarList] = useState([])
+  const {selectedRide,setSelectedRide,setPrice,basePrice} =useContext(UberContext);
+
   useEffect(() => {
     ;(async () => {
       try {
@@ -27,8 +30,9 @@ const RideSelector = () => {
         
         const data = await response.json();
      
-        setCartList(data.data);
-        console.log(data)
+        setCarList(data.data);
+
+        setSelectedRide(data.data[0])
       } catch (error) {
         console.error(error);
       }

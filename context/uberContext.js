@@ -10,6 +10,9 @@ export const UberProvider = ({children}) => {
     const [dropoffCoordinates,setDropoffCoordinates]= useState()
     const [currentAccount,setCurrentAccount] = useState()
     const [currentUser,setCurrentUser] = useState([])
+    const [selectedRide,setSelectedRide] = useState([])
+    const [price,setPrice] = useState()
+    const [basePrice,setBasePrice] = useState()
 let metamask
 if(typeof window !== 'undefined'){
     metamask = window.ethereum
@@ -24,6 +27,26 @@ useEffect(()=>{
     requestToGetCurrentUserInfo(currentAccount)
 },[currentAccount])
 
+useEffect(()=>{
+    if(!pickupCoordinates || !dropoffCoordinates) return
+    ;(async () => {
+        try{
+            const response = await fetch("/api/map/getDuration",{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                },
+                body:JSON.stringify({
+                    pickupCoordinates:`${pickupCoordinates[0]},${pickupCoordinates[1]}`,
+                    dropoffCoordinates:`${dropoffCoordinates[0]},${dropoffCoordinates[1]}`
+                })
+            })
+        }catch(error){
+            console.log(error);
+        }
+    })
+
+},[pickupCoordinates,dropoffCoordinates])
 const checkIfWalletIsConnected = async() => {
     if(!window.ethereum) return
     try{
@@ -126,7 +149,7 @@ setCurrentUser(data.data)
     }
 }
     return (
-        <UberContext.Provider value={{pickup,setPickup,dropoff,setDropoff,pickupCoordinates,setPickupCoordinates,dropoffCoordinates,setDropoffCoordinates,connectWallet,currentAccount,currentUser}}>{children}</UberContext.Provider>
+        <UberContext.Provider value={{pickup,setPickup,dropoff,setDropoff,pickupCoordinates,setPickupCoordinates,dropoffCoordinates,setDropoffCoordinates,connectWallet,currentAccount,currentUser,selectedRide,setSelectedRide,price,setPrice,basePrice,metamask}}>{children}</UberContext.Provider>
     )
 }
 

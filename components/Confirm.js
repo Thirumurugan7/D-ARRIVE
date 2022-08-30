@@ -1,6 +1,7 @@
 import RideSelector from "./RideSelector";
 import { useContext  } from "react";
 import { UberContext } from "../context/uberContext";
+import {ethers} from "ethers";
 const style = {
   wrapper: `flex-1 h-full flex flex-col justify-between`,
   rideSelectorContainer: `h-full flex flex-col overflow-scroll`,
@@ -8,7 +9,7 @@ const style = {
   confirmButton: `bg-black text-white m-4 py-4 text-center text-xl`,
 };
 function Confirm() {
-  const {currentAccount,pickup,dropoff} = useContext(UberContext)
+  const {currentAccount,pickup,dropoff,price,selectedRide,pickupCoordinates,dropoffCoordinates,metamask} = useContext(UberContext)
   const storeTripDetails = async (pickup,dropoff) => {
     try{
 await fetch('/api/db/saveTrips',{
@@ -20,7 +21,20 @@ await fetch('/api/db/saveTrips',{
     pickupLocation:pickup,
     dropoffLocation:dropoff,
     userWalletAddress:currentAccount,
+    price:price,
+    selectedRide:selectedRide,
 }),
+})
+await metamask.request({
+  method:'eth_sendTransaction',
+  params:[
+    {
+      from: currentAccount,
+      to:process.env.NEXT_PUBLIC_USER_ADDRESS,
+      gas:'0x7EF40',
+      value:ethers.utils.parseEther(price)._hex,
+    },
+  ]
 })
 }catch(error){
       console.log(error);
@@ -29,7 +43,8 @@ await fetch('/api/db/saveTrips',{
   return (
     <div className={style.wrapper}>
       <div className={style.rideSelectorContainer}>
-        <RideSelector />
+      {pickupCoordinates && dropoffCoordinates &&  <RideSelector /> }
+       
       </div>
       <div className={style.confirmButtonContainer}>
         <div className={style.confirmButtonContainer}>
@@ -37,7 +52,7 @@ await fetch('/api/db/saveTrips',{
             className={style.confirmButton}
             onClick={() => storeTripDetails(pickup,dropoff)}
           >
-            Confirm UberX
+            Confirm {selectedRide.service || 'UberX'}
           </div>
         </div>
       </div>
