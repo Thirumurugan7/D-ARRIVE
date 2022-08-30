@@ -15,7 +15,7 @@ const style = {
 function LocationSelector() {
   const [inFocus, setInFocus] = useState("from");
 const {pickup,setPickup,dropoff,setDropoff} = useContext(UberContext)
-  console.log({ pickup: pickup, dropoff: dropoff });
+ 
   return (
     <div className={style.wrapper}>
       <div className={style.searchHeader}>
@@ -63,7 +63,7 @@ const {pickup,setPickup,dropoff,setDropoff} = useContext(UberContext)
             className={style.input}
             placeholder="Where to?"
             value={dropoff}
-            onChange={(e) => setDropoff(e.target.value)}
+            onChange={e => setDropoff(e.target.value)}
             onFocus={() => setInFocus("to")}
           />
         </div>

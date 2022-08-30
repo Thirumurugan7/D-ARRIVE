@@ -28,6 +28,7 @@ const RideSelector = () => {
         const data = await response.json();
      
         setCartList(data.data);
+        console.log(data)
       } catch (error) {
         console.error(error);
       }
