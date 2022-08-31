@@ -17,7 +17,7 @@ const style = {
   price: `mr-[-0.8rem]`,
 };
 
-const basePrice = 1542;
+
 const RideSelector = () => {
 const [carList , setCarList] = useState([])
   const {selectedRide,setSelectedRide,setPrice,basePrice} =useContext(UberContext);
@@ -43,7 +43,15 @@ const [carList , setCarList] = useState([])
       <div className={style.title}>Choose a ride, or swipe up for more</div>
       <div className={style.carList}>
         {carList.map((car, index) => (
-          <div key={index} className={style.car}>
+          <div key={index} className={`${
+              selectedRide.service === car.service
+                ? style.selectedCar
+                : style.car
+            }`}
+            onClick={() => {
+              setSelectedRide(car)
+              setPrice(((basePrice / 10 ** 5) * car.priceMultiplier).toFixed(5))
+            }}>
             <Image
               src={car.iconUrl}
               className={style.carImage}

@@ -39,14 +39,17 @@ useEffect(()=>{
                 body:JSON.stringify({
                     pickupCoordinates:`${pickupCoordinates[0]},${pickupCoordinates[1]}`,
                     dropoffCoordinates:`${dropoffCoordinates[0]},${dropoffCoordinates[1]}`
-                })
+                }),
             })
+            const data = await response.json()
+            setBasePrice(Math.round(await data.data))
         }catch(error){
             console.log(error);
         }
     })
 
 },[pickupCoordinates,dropoffCoordinates])
+
 const checkIfWalletIsConnected = async() => {
     if(!window.ethereum) return
     try{
@@ -85,10 +88,11 @@ console.log(error)
                 },
                 body:JSON.stringify({
                     location:locationName,
-                })
+                }),
             })
             const data = await response.json()
-            if(data.message = 'success'){
+
+            if(data.message === 'success'){
                 switch(locationType){
                     case 'pickup' :
                         setPickupCoordinates(data.data)
@@ -102,7 +106,7 @@ console.log(error)
                 reject()
             }
         }catch(error){
-            console.log(error);
+            console.error(error);
             reject()
         }
         })
@@ -134,25 +138,24 @@ await fetch('/api/db/createUser',{
     })
 })
         }catch(error){
-console.log(error)
+console.error(error)
         }
     }
 const requestToGetCurrentUserInfo = async walletAddress => {
     try{
 const response = await fetch(
-    '/api/db/getUserInfo/walletAddress=${walletAddress}',
+    '/api/db/getUserInfo?walletAddress=${walletAddress}',
 )
 const data = await response.json()
 setCurrentUser(data.data)
     }catch(error){
-        console.log(error)
+        console.error(error)
     }
 }
     return (
         <UberContext.Provider value={{pickup,setPickup,dropoff,setDropoff,pickupCoordinates,setPickupCoordinates,dropoffCoordinates,setDropoffCoordinates,connectWallet,currentAccount,currentUser,selectedRide,setSelectedRide,price,setPrice,basePrice,metamask}}>{children}</UberContext.Provider>
     )
 }
-
 
 
 

@@ -6,11 +6,11 @@ const style = {
   wrapper: `flex-1 h-full w-full`,
 };
 
-mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_ACCESS_TOKEN;
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 function Map() {
   const {pickupCoordinates,dropoffCoordinates} = useContext(UberContext)
-  console.log(pickupCoordinates,dropoffCoordinates)
+  
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: "map",
@@ -38,12 +38,8 @@ function Map() {
   const addToMap = (map,coordinates) => {
     const marker1 = new mapboxgl.Marker().setLngLat(coordinates).addTo(map)
   }
-  return (
-    <div className={style.wrapper} id="map">
+  return <div className={style.wrapper} id="map" />
 
-    </div> 
-    
-  );
 }
 
 export default Map;

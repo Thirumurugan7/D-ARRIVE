@@ -10,6 +10,7 @@ const style = {
 };
 function Confirm() {
   const {currentAccount,pickup,dropoff,price,selectedRide,pickupCoordinates,dropoffCoordinates,metamask} = useContext(UberContext)
+
   const storeTripDetails = async (pickup,dropoff) => {
     try{
 await fetch('/api/db/saveTrips',{
